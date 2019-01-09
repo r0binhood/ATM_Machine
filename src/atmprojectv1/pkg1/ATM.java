@@ -78,12 +78,11 @@ public class ATM implements Interfaces{
         if(count<3){
         if(enteredPin==ActualPin){
             System.out.println("Entered PIN is correct.");
-            options();
+            mainMenu();
         }
         
         else{
             System.out.println("INCORRECT PIN entered.");
-            System.out.println("ReEnter your PIN.");
             enterPIN();
             }
         count++;
@@ -143,7 +142,8 @@ public class ATM implements Interfaces{
                 withdraw();
                 break;
             case 2:
-                System.out.println("Sorry! Service Unavailable");
+                fastCashOptions();
+                //System.out.println("Sorry! Service Unavailable");
                 break;
             case 3:
                 balanceInquiry();
@@ -164,7 +164,7 @@ public class ATM implements Interfaces{
     }
     @Override
     public void balanceInquiry(){
-        System.out.println("Your current Balance is Rs."+currentAmount);
+        System.out.println("Your current Balance is Rs."+getCurrentAmount());
         options();
     }    
 
@@ -181,11 +181,67 @@ public class ATM implements Interfaces{
             mainMenu();
         }
         else{
-            System.out.print("Invalid Input. Reenter : ");
+            System.out.print("Invalid Input.");
             options();
         }
     }
 
-
+    @Override
+    public int getCurrentAmount() {
+        return currentAmount;
+    }
+    @Override
+    public void fastCashOptions(){
+            System.out.println(" 1. 500 \t\t2.1000");
+            System.out.println(" 3. 2000 \t\t4.2500");
+            System.out.println(" 5. 5000 \t\t6.7500");
+            System.out.println(" 7. 8000 \t\t8.10000");
+            Scanner sc=new Scanner(System.in);
+            System.out.print("Choose the option :  ");
+            int op=sc.nextInt();
+            int collect = 0;
+        switch (op) {
+            case 1:
+                currentAmount-=500;
+                collect=500;
+                break;
+            case 2:
+                currentAmount-=1000;
+                collect=1000;
+                break;
+            case 3:
+                currentAmount-=2000;
+                collect=2000;
+                break;
+            case 4:
+                currentAmount-=2500;
+                collect=2500;
+                break;
+            case 5:
+                currentAmount-=5000;
+                collect=5000;
+                break;
+            case 6:
+                currentAmount-=7500;
+                collect=7500;
+                break;
+            case 7:
+                currentAmount-=8000;
+                collect=8000;
+                break;
+            case 8:
+                currentAmount-=10000;
+                collect=10000;
+                break;
+            default:
+                System.out.println("Invalid Input.");
+                fastCashOptions();
+                break;
+        }
+            System.out.println("Collect "+collect+" and take your card.");
+            System.out.println("Amount :"+getCurrentAmount());
+            fastCashOptions();
+}
+   
     
 }

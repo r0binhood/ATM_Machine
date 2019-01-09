@@ -5,21 +5,13 @@
  */
 package atmprojectv1.pkg1;
 
-import java.util.Scanner;
-
-/**
- *
- * @author r0binhood
- */
 public class MAIN {
 
     public static void main(String[] args) {
         System.out.println("\t\t======== WELCOME ========");
         
-        ATM globalbank=new ATM();
-        globalbank.chkCard();
-        globalbank.chooseLanguage();
-        globalbank.enterPIN();
+        AtmInitialize obj=new AtmInitialize();
+        obj.start();
             
 }
 

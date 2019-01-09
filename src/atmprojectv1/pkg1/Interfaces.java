@@ -10,6 +10,8 @@ public interface Interfaces {
     void withdraw();
     void operations(int op);
     void balanceInquiry();
+    int getCurrentAmount();
+    void fastCashOptions();
     
         
     
