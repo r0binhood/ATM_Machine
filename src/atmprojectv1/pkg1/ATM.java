@@ -30,11 +30,12 @@ public class ATM implements Interfaces{
         
             if(chkCardInsertion==1){
                 System.out.println("\tCard is Inserted");
+                return 1;
             }
             
             else {
                 System.out.println("\tCard is not Inserted");
-                System.out.println("Press 1 if card is inserted.");       
+                System.out.println("Press 1 if card is inserted.");   
             }
         }
         return 0;
@@ -56,9 +57,11 @@ public class ATM implements Interfaces{
         switch (lang) {
             case 1:
                 System.out.println("You choose ENGLISH ");
+                enterPIN();
                 break;
             case 0:
                 System.out.println("You choose NEPALI.");
+                System.out.println("Currently under Development..");
                 break;
             default:
                 System.out.println("ERROR.....Invalid Input");
@@ -67,15 +70,16 @@ public class ATM implements Interfaces{
         
         
     }
-
+int count=0;
     @Override
     public void enterPIN() {
         System.out.println("Enter your PIN... ");
         Scanner sc=new Scanner(System.in);        
         enteredPin=sc.nextInt(); 
-        int count=0;
+        
     
         if(count<3){
+            count++;
         if(enteredPin==ActualPin){
             System.out.println("Entered PIN is correct.");
             mainMenu();
@@ -84,8 +88,9 @@ public class ATM implements Interfaces{
         else{
             System.out.println("INCORRECT PIN entered.");
             enterPIN();
+            
             }
-        count++;
+        
         }
         else
             System.out.println("Exit...");
@@ -107,14 +112,14 @@ public class ATM implements Interfaces{
 
     @Override
     public void cashDeposit() {
-        int amount;
+        //int amount;
         Scanner sc=new Scanner(System.in);
         
         System.out.println("Enter amount to deposit. ");
         depositAmount=sc.nextInt();
         
         currentAmount+=depositAmount;
-        System.out.println("Rs. "+currentAmount+" is Deposited ");
+        System.out.println("Rs. "+depositAmount+" is Deposited ");
         
         options();
         
@@ -123,13 +128,31 @@ public class ATM implements Interfaces{
     
     @Override
     public void withdraw(){
+        System.out.println("Amount should be divisible by 500.");
         System.out.println("Enter amount to withdraw: ");
         Scanner sc=new Scanner(System.in);
         int withdrawAmount=sc.nextInt();
-        
-        currentAmount=currentAmount-withdrawAmount;
-        System.out.println("Rs."+withdrawAmount+" is withdrawed. ");
-        System.out.println("Collect your Cash.");
+        try {
+            System.out.println("Withdrawing Rs."+withdrawAmount);
+            withdraw1(withdrawAmount);
+            
+            /*currentAmount=currentAmount-withdrawAmount;
+            System.out.println("Rs."+withdrawAmount+" is withdrawed. ");
+            System.out.println("Collect your Cash.");
+            options();*/
+        } 
+        catch (InsufficientFundsException e) {
+            System.out.println("Sorry, but you are short Rs." + e.getAmount());
+        }
+    }
+    public void withdraw1(int amount) throws InsufficientFundsException {
+        if(amount <= currentAmount) {
+            currentAmount -= amount;
+            System.out.println("Collect Your Cash.");
+        }else {
+            int needs = (amount - currentAmount);
+            throw new InsufficientFundsException(needs);
+        }
         options();
     }
 
@@ -239,9 +262,6 @@ public class ATM implements Interfaces{
                 break;
         }
             System.out.println("Collect "+collect+" and take your card.");
-            System.out.println("Amount :"+getCurrentAmount());
-            fastCashOptions();
-}
-   
-    
+            System.out.println("\t THANK YOU.");
+}   
 }
